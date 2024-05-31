@@ -1,0 +1,60 @@
+﻿@model List<Product>
+@{
+}
+
+<h2 class="text-center mb-auto">List Of Products</h2>
+
+
+<div class="row mb-5">
+    <div class="col">
+        <a class="btn btn-primary" asp-controller="Products" asp-action="Create">New Product</a>
+    </div>
+    <div class="col">
+        <form asp-controller="Products" asp-action="Search" method="get">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search by name or category" name="searchString">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@if (!string.IsNullOrEmpty(ViewBag.SearchString))
+{
+    <div class="text-center mb-3">
+        <a href="@Url.Action("Index")" class="btn btn-secondary">Back to All Products</a>
+    </div>
+}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Product Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Brand</th>
+            <th>Category</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>@item.Price</td>
+                <td>@item.Brand</td>
+                <td>@item.Category</td>
+                <td>@item.CreatedAt.ToString("g")</td>
+                <td style="white-space:nowrap">
+                    <a class="btn btn-primary btn-sm" asp-controller="Products" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a class="btn btn-danger btn-sm" asp-controller="Products" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
